@@ -20,13 +20,14 @@ jobs:
         submodules: true
 
     - name: Debug - List Files
-      run: ls -la  # Check if yarn.lock is present
+      run: ls -la  # Verify yarn.lock exists
 
     - name: Set Up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
         cache: 'yarn'
+        cache-dependency-path: yarn.lock  # Ensure caching based on yarn.lock
 
     - name: Cache Yarn Dependencies
       uses: actions/cache@v4
@@ -34,7 +35,8 @@ jobs:
         path: |
           ~/.yarn
           ~/.cache/yarn
-        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
 
