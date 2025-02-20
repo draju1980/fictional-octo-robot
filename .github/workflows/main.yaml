@@ -24,14 +24,23 @@ jobs:
         node-version: '20.x'
         cache: 'yarn'
 
-    - name: add yarn.lock to cache
-      cmd: touch yarn.lock
-      
+    - name: Cache Yarn Dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.yarn
+          ~/.cache/yarn
+        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
     - name: Enable Corepack (for Yarn Berry)
       run: corepack enable
 
     - name: Install Dependencies
-      run: yarn install --immutable  # Ensures lockfile is used
+      run: yarn install --immutable
+      env:
+        YARN_CACHE_FOLDER: ~/.cache/yarn  # Explicit cache path
 
     - name: Run TypeScript Compiler
       run: yarn tsc
