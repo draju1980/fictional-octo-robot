@@ -24,6 +24,9 @@ jobs:
         node-version: '20.x'
         cache: 'yarn'
 
+    - name: add yarn.lock to cache
+      cmd: touch yarn.lock
+      
     - name: Enable Corepack (for Yarn Berry)
       run: corepack enable
 
