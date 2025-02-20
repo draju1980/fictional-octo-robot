@@ -16,7 +16,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Ensures full history and all files
+        fetch-depth: 0
+        submodules: true
+
+    - name: Debug - List Files
+      run: ls -la  # Check if yarn.lock is present
 
     - name: Set Up Node.js
       uses: actions/setup-node@v4
@@ -40,7 +44,7 @@ jobs:
     - name: Install Dependencies
       run: yarn install --immutable
       env:
-        YARN_CACHE_FOLDER: ~/.cache/yarn  # Explicit cache path
+        YARN_CACHE_FOLDER: ~/.cache/yarn
 
     - name: Run TypeScript Compiler
       run: yarn tsc
