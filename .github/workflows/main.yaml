@@ -2,8 +2,9 @@
 name: Backstage Docker imageBuild and Push
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
